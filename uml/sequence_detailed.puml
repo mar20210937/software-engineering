@@ -1,0 +1,51 @@
+@startuml seq
+title Detailed Sequence Diagram - Parking Reservation and Payment
+
+actor User
+participant "Mobile App / Kiosk UI" as UI
+participant "Backend System" as Backend
+database "Parking Database" as DB
+participant "Sensor/Camera System" as Sensor
+participant "Payment Gateway" as Payment
+
+User -> UI: Open app and request available spaces
+UI -> Backend: Get available parking spaces
+Backend -> Sensor: Request live occupancy data
+Sensor --> Backend: Send occupancy data
+Backend -> DB: Read parking space records
+DB --> Backend: Return available spaces
+Backend --> UI: Send available spaces
+UI --> User: Display available spaces
+
+User -> UI: Select parking space
+UI -> Backend: Reserve parking space
+Backend -> DB: Check space availability
+DB --> Backend: Space available
+Backend -> DB: Save reservation
+DB --> Backend: Reservation saved
+Backend --> UI: Reservation confirmation
+UI --> User: Display reservation confirmation
+
+User -> UI: Request guidance
+UI -> Backend: Get route to parking space
+Backend -> DB: Get reserved parking space
+DB --> Backend: Parking space details
+Backend --> UI: Send route guidance
+UI --> User: Display route guidance
+
+User -> UI: Request checkout
+UI -> Backend: Calculate parking fee
+Backend -> DB: Get parking session
+DB --> Backend: Session details
+Backend --> UI: Return fee amount
+UI --> User: Display fee
+
+User -> UI: Confirm payment
+UI -> Backend: Process payment
+Backend -> Payment: Send payment request
+Payment --> Backend: Payment successful
+Backend -> DB: Save payment transaction
+DB --> Backend: Transaction saved
+Backend --> UI: Payment confirmation
+UI --> User: Display payment success
+@enduml
