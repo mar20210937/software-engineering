@@ -1,0 +1,23 @@
+@startuml activity
+title Activity Diagram - Parking Reservation and Payment Flow
+
+start
+
+:Open mobile app / kiosk;
+:Check available parking spaces;
+
+if (Parking space available?) then (Yes)
+  :Select parking space;
+  :Reserve parking spot;
+  :Receive guidance to parking spot;
+  :Park vehicle;
+  :Request checkout;
+  :Calculate parking fee;
+  :Process payment;
+  :Display payment confirmation;
+else (No)
+  :Display "Parking Full";
+endif
+
+stop
+@enduml
