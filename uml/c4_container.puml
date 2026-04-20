@@ -1,0 +1,27 @@
+@startuml c4
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title C4 Level 2 - Container Diagram
+
+Person(user, "Driver/User", "Uses the app or kiosk to find and reserve parking.")
+Person(admin, "Admin", "Uses the admin dashboard to monitor and manage the parking system.")
+
+System_Ext(sensor, "Sensor/Camera System", "Detects vehicle entry, exit, and parking occupancy.")
+System_Ext(payment, "Payment Gateway", "Processes payments securely.")
+
+System_Boundary(system, "Parking Management and Guidance System") {
+    Container(app, "Mobile App / Kiosk UI", "Frontend", "Allows users to check availability, reserve spaces, receive guidance, and pay.")
+    Container(adminPanel, "Admin Dashboard", "Frontend", "Allows admin to manage spaces, pricing, and reports.")
+    Container(api, "Backend System", "Application Logic", "Handles reservations, occupancy updates, guidance, and payment processing.")
+    ContainerDb(db, "Parking Database", "Database", "Stores parking spots, users, reservations, transactions, and sensor data.")
+}
+
+Rel(user, app, "Uses")
+Rel(admin, adminPanel, "Uses")
+Rel(app, api, "Sends requests to")
+Rel(adminPanel, api, "Sends requests to")
+Rel(api, db, "Reads/Writes")
+Rel(sensor, api, "Sends occupancy and entry/exit data")
+Rel(api, payment, "Sends payment requests to")
+
+@enduml

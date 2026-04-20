@@ -1,0 +1,18 @@
+@startuml c4
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title C4 Level 1 - Context Diagram
+Person(user, "Driver/User", "Searches for parking, reserves a spot, receives guidance, and pays parking fees.")
+Person(admin, "Admin", "Monitors occupancy, manages parking spaces, pricing, and reports.")
+
+System(system, "Parking Management and Guidance System", "Monitors parking availability, supports reservation, guidance, and payment.")
+
+System_Ext(sensor, "Sensor/Camera System", "Detects vehicle presence and updates parking availability.")
+System_Ext(payment, "Payment Gateway", "Processes user payments securely.")
+
+Rel(user, system, "Uses")
+Rel(admin, system, "Manages")
+Rel(sensor, system, "Sends parking data")
+Rel(system, payment, "Processes payments through")
+
+@enduml
