@@ -1,0 +1,24 @@
+@startuml
+actor User
+actor Admin
+
+participant System
+participant Sensor
+participant Payment
+
+User -> System: Check availability
+System -> Sensor: Get parking data
+Sensor --> System: Availability
+System --> User: Show spaces
+
+User -> System: Reserve spot
+System --> User: Confirm reservation
+
+User -> System: Pay fee
+System -> Payment: Process payment
+Payment --> System: Success
+System --> User: Payment confirmed
+
+Admin -> System: View occupancy
+System --> Admin: Show data
+@enduml
