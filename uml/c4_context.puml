@@ -10,6 +10,7 @@ System(system, "Parking Management and Guidance System", "Monitors parking avail
 System_Ext(sensor, "Sensor/Camera System", "Detects vehicle presence and updates parking availability.")
 System_Ext(payment, "Payment Gateway", "Processes user payments securely.")
 
+
 Rel(user, system, "Uses")
 Rel(admin, system, "Manages")
 Rel(sensor, system, "Sends parking data")

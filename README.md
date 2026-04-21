@@ -4,12 +4,12 @@
 - **Group Number:** 5  
 - **Case Study:** Parking Management and Guidance System  
 - **Members:**  
-  - Maryam Abualia – 20210937 
+  - Maryam Abualia – 20210937  
   - Joud Quteifan – 20221073  
   - Ali Ziadeh – 20210870  
-  - Member 4 – ID  
+  - [Member 4 Name] – [ID]  
 - **Course:** Software Engineering  
-- **Instructor:** Dr. Samer Kababji 
+- **Instructor:** Dr. Samer Kababji  
 
 ---
 
@@ -36,18 +36,12 @@ Administrators can:
 ---
 
 ## 3. Diagrams
-
-### C4 Level 1 – Context Diagram
-Shows the system interaction with users, admin, sensors, and payment gateway.
-
-### C4 Level 2 – Container Diagram
-Shows internal system structure including frontend, backend, and database.
-
-### Use Case Diagram
-Represents system functionalities and interactions with actors.
-
-### Sequence Diagram (High-Level)
-Shows the interaction flow between system components during parking operations.
+- **C4 Level 1 – Context Diagram:** Shows system interaction with users, admin, sensors, and payment gateway.  
+- **C4 Level 2 – Container Diagram:** Shows internal system structure including frontend, backend, and database.  
+- **Use Case Diagram:** Represents system functionalities and actors.  
+- **Sequence Diagram (High-Level):** Shows main interaction flow.  
+- **Sequence Diagram (Detailed):** Shows internal interactions between components.  
+- **Activity Diagram:** Shows system workflow from availability to payment.  
 
 ---
 
@@ -60,9 +54,15 @@ SEPROJ/
 │   └── images/
 │       ├── c4_context.png
 │       ├── c4_container.png
-│       └── sequence_high_level.png
+│       ├── use_case_diagram.png
+│       ├── sequence_high_level.png
+│       ├── sequence_detailed.png
+│       └── activity_diagram.png
 ├── uml/
 │   ├── c4_context.puml
 │   ├── c4_container.puml
-│   └── sequence_high_level.puml
+│   ├── use_case_diagram.puml
+│   ├── sequence_high_level.puml
+│   ├── sequence_detailed.puml
+│   └── activity_diagram.puml
 └── README.md
