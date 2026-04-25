@@ -194,7 +194,7 @@ The use case diagram shows the main interactions between the users of the Parkin
 ![High-Level Sequence Diagram](images/sequence_high_level.png)
 
 **Explanation:**  
-The high-level sequence diagram shows the main flow between the user, system, sensor system, payment gateway, and admin. It covers checking availability, reserving a parking space, payment processing, and occupancy viewing.
+The high-level sequence diagram shows the main flow between the user, system, sensor system, payment gateway, and admin. It covers checking availability, reserving a parking space, payment processing and occupancy viewing.
 
 ---
 
