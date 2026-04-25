@@ -1,4 +1,4 @@
-# Software Engineering Project – Group 5
+# Software Engineering Project – Group #5
 
 ## 1. Group Information
 - **Group Number:** 5  
@@ -9,7 +9,7 @@
   - Ali Ziadeh – 20210870  
   - Zaid Alsaleh – 20220126  
 - **Course:** Software Engineering  
-- **Instructor:** Dr. Samer Kababji  
+- **Instructor:** Dr. Samer Elkababji 
 
 ---
 
