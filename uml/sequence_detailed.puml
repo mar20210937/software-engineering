@@ -1,4 +1,4 @@
-@startuml seq
+@startuml sequence_detailed
 title Detailed Sequence Diagram - Parking Reservation and Payment
 
 actor User
@@ -11,41 +11,56 @@ participant "Payment Gateway" as Payment
 User -> UI: Open app and request available spaces
 UI -> Backend: Get available parking spaces
 Backend -> Sensor: Request live occupancy data
-Sensor --> Backend: Send occupancy data
+Sensor --> Backend: Send occupancy and entry/exit data
+Backend -> Backend: Validate and normalize sensor data
 Backend -> DB: Read parking space records
 DB --> Backend: Return available spaces
 Backend --> UI: Send available spaces
 UI --> User: Display available spaces
 
-User -> UI: Select parking space
-UI -> Backend: Reserve parking space
-Backend -> DB: Check space availability
-DB --> Backend: Space available
-Backend -> DB: Save reservation
-DB --> Backend: Reservation saved
-Backend --> UI: Reservation confirmation
-UI --> User: Display reservation confirmation
+alt Space available
+  User -> UI: Select parking space
+  UI -> Backend: Reserve parking space
+  Backend -> DB: Check space availability
+  DB --> Backend: Space available
+  Backend -> DB: Save reservation and create session
+  DB --> Backend: Reservation saved
+  Backend --> UI: Reservation confirmation
+  UI --> User: Display reservation confirmation
 
-User -> UI: Request guidance
-UI -> Backend: Get route to parking space
-Backend -> DB: Get reserved parking space
-DB --> Backend: Parking space details
-Backend --> UI: Send route guidance
-UI --> User: Display route guidance
+  User -> UI: Request guidance
+  UI -> Backend: Get route to parking space
+  Backend -> DB: Get reserved parking space
+  DB --> Backend: Parking space details
+  Backend -> Backend: Calculate route from entry point
+  Backend --> UI: Send route guidance
+  UI --> User: Display route guidance
 
-User -> UI: Request checkout
-UI -> Backend: Calculate parking fee
-Backend -> DB: Get parking session
-DB --> Backend: Session details
-Backend --> UI: Return fee amount
-UI --> User: Display fee
+  User -> UI: Request checkout
+  UI -> Backend: Calculate parking fee
+  Backend -> DB: Get parking session and pricing policy
+  DB --> Backend: Session and pricing details
+  Backend -> Backend: Calculate total fee
+  Backend --> UI: Return fee amount
+  UI --> User: Display fee
 
-User -> UI: Confirm payment
-UI -> Backend: Process payment
-Backend -> Payment: Send payment request
-Payment --> Backend: Payment successful
-Backend -> DB: Save payment transaction
-DB --> Backend: Transaction saved
-Backend --> UI: Payment confirmation
-UI --> User: Display payment success
+  User -> UI: Confirm payment
+  UI -> Backend: Process payment
+  Backend -> Payment: Send payment request
+  Payment --> Backend: Payment result
+
+  alt Payment approved
+    Backend -> DB: Save payment transaction
+    Backend -> DB: Mark session completed
+    DB --> Backend: Transaction saved
+    Backend --> UI: Payment confirmation
+    UI --> User: Display payment success
+  else Payment failed
+    Backend --> UI: Payment failure message
+    UI --> User: Ask user to retry payment
+  end
+else No spaces available
+  Backend --> UI: Parking full message
+  UI --> User: Display parking full
+end
 @enduml

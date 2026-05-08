@@ -1,23 +1,60 @@
-@startuml activity
-title Activity Diagram - Parking Reservation and Payment Flow
+@startuml activity_diagram
+title Activity Diagram with Swimlanes - Parking Reservation and Payment Flow
 
+|Driver/User|
 start
-
 :Open mobile app / kiosk;
-:Check available parking spaces;
+:Request available parking spaces;
+
+|Parking Management System|
+:Receive availability request;
+:Request live occupancy data;
+
+|Sensor/Camera System|
+:Send occupancy and entry/exit data;
+
+|Parking Management System|
+:Validate live data;
+:Read parking records;
+:Calculate available spaces;
 
 if (Parking space available?) then (Yes)
+  :Display available spaces;
+
+  |Driver/User|
   :Select parking space;
-  :Reserve parking spot;
-  :Receive guidance to parking spot;
+
+  |Parking Management System|
+  :Check selected space availability;
+  :Save reservation;
+  :Create parking session;
+  :Generate route guidance;
+  :Display reservation and route;
+
+  |Driver/User|
   :Park vehicle;
   :Request checkout;
+
+  |Parking Management System|
   :Calculate parking fee;
+  :Send payment request;
+
+  |Payment Gateway|
   :Process payment;
-  :Display payment confirmation;
+  :Return payment result;
+
+  |Parking Management System|
+  if (Payment approved?) then (Yes)
+    :Store payment transaction;
+    :Mark session completed;
+    :Display payment confirmation;
+  else (No)
+    :Display payment failure;
+  endif
 else (No)
   :Display "Parking Full";
 endif
 
+|Driver/User|
 stop
 @enduml

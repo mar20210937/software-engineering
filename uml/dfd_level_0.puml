@@ -1,0 +1,33 @@
+@startuml dfd_level_0
+left to right direction
+
+skinparam rectangle {
+  BackgroundColor #F8FAFC
+  BorderColor #334155
+  RoundCorner 12
+}
+skinparam database {
+  BackgroundColor #EFF6FF
+  BorderColor #1D4ED8
+}
+
+actor "Driver/User" as Driver
+actor Admin
+actor "Sensor/Camera System" as Sensor
+actor "Payment Gateway" as Payment
+
+rectangle "0. Parking Management\nand Guidance System" as System
+database "D1 Parking Database" as DB
+
+Driver --> System : availability/reservation requests
+System --> Driver : spaces, route, receipt
+Sensor --> System : occupancy readings,\nentry/exit events
+System --> Sensor : live data requests
+Admin --> System : space, pricing, report requests
+System --> Admin : dashboard, reports, confirmations
+System --> Payment : payment authorization request
+Payment --> System : payment result
+System --> DB : store parking records
+DB --> System : parking and pricing data
+
+@enduml

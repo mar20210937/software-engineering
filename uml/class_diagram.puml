@@ -1,0 +1,189 @@
+@startuml class_diagram
+title Class Diagram - Parking Management and Guidance System
+
+skinparam classAttributeIconSize 0
+
+abstract class User {
+  - userId: String
+  - name: String
+  - email: String
+  - phone: String
+  + login(): boolean
+  + updateProfile(): void
+}
+
+class Driver {
+  - licenseNumber: String
+  + viewAvailableSpaces(): List<ParkingSpot>
+  + reserveSpot(spotId: String): Reservation
+  + requestGuidance(reservationId: String): Route
+  + payFee(sessionId: String): PaymentTransaction
+}
+
+class Admin {
+  - employeeId: String
+  + manageParkingSpaces(): void
+  + managePricingPolicy(): void
+  + viewOccupancy(): OccupancySummary
+  + generateReport(type: String): Report
+}
+
+class Vehicle {
+  - plateNumber: String
+  - type: String
+  - color: String
+  + registerVehicle(): void
+}
+
+class ParkingLot {
+  - lotId: String
+  - name: String
+  - location: String
+  + getOccupancyRate(): double
+}
+
+class ParkingZone {
+  - zoneId: String
+  - name: String
+  - floorNumber: int
+  + findNearestAvailableSpot(): ParkingSpot
+}
+
+class ParkingSpot {
+  - spotId: String
+  - spotNumber: String
+  - type: String
+  - status: SpotStatus
+  + markAvailable(): void
+  + markOccupied(): void
+  + reserve(): void
+}
+
+class Sensor {
+  - sensorId: String
+  - type: String
+  - status: DeviceStatus
+  + detectPresence(): boolean
+  + sendOccupancyUpdate(): void
+}
+
+class Camera {
+  - cameraId: String
+  - location: String
+  - status: DeviceStatus
+  + recognizePlate(): String
+  + detectEntryExit(): EntryExitEvent
+}
+
+class Reservation {
+  - reservationId: String
+  - startTime: DateTime
+  - expiryTime: DateTime
+  - status: ReservationStatus
+  + confirm(): void
+  + cancel(): void
+  + expire(): void
+}
+
+class ParkingSession {
+  - sessionId: String
+  - entryTime: DateTime
+  - exitTime: DateTime
+  - status: SessionStatus
+  + start(): void
+  + close(): void
+  + calculateDuration(): int
+}
+
+class PricingPolicy {
+  - policyId: String
+  - hourlyRate: double
+  - accessType: String
+  + calculateFee(durationMinutes: int): double
+  + updateRate(rate: double): void
+}
+
+class PaymentTransaction {
+  - transactionId: String
+  - amount: double
+  - method: String
+  - status: PaymentStatus
+  + authorize(): boolean
+  + recordPayment(): void
+}
+
+class Report {
+  - reportId: String
+  - type: String
+  - generatedAt: DateTime
+  + generate(): void
+  + exportPdf(): File
+}
+
+class Route {
+  - routeId: String
+  - distanceMeters: double
+  - instructions: String
+  + calculate(): void
+}
+
+enum SpotStatus {
+  Available
+  Reserved
+  Occupied
+  OutOfService
+}
+
+enum PaymentStatus {
+  Pending
+  Approved
+  Failed
+  Refunded
+}
+
+enum DeviceStatus {
+  Online
+  Offline
+  Maintenance
+}
+
+enum ReservationStatus {
+  Pending
+  Confirmed
+  Cancelled
+  Expired
+}
+
+enum SessionStatus {
+  Active
+  Completed
+  Overdue
+}
+
+User <|-- Driver
+User <|-- Admin
+
+Driver "1" o-- "0..*" Vehicle : owns
+Driver "1" -- "0..*" Reservation : creates
+Driver "1" -- "0..*" ParkingSession : uses
+
+ParkingLot "1" *-- "1..*" ParkingZone : contains
+ParkingZone "1" *-- "1..*" ParkingSpot : contains
+ParkingSpot "1" o-- "0..1" Sensor : monitored by
+ParkingLot "1" o-- "0..*" Camera : monitored by
+
+Reservation "1" -- "1" ParkingSpot : reserves
+Reservation "0..1" -- "1" Vehicle : assigned to
+ParkingSession "1" -- "1" ParkingSpot : occupies
+ParkingSession "1" -- "1" Vehicle : records
+ParkingSession "1" -- "0..1" Reservation : based on
+ParkingSession "1" -- "1" PricingPolicy : priced by
+ParkingSession "1" -- "0..1" PaymentTransaction : paid by
+
+Admin "1" -- "0..*" PricingPolicy : manages
+Admin "1" -- "0..*" Report : generates
+Route ..> ParkingSpot : guides to
+Camera ..> ParkingSession : detects entry/exit
+Sensor ..> ParkingSpot : updates status
+
+@enduml

@@ -1,24 +1,35 @@
-@startuml
-actor User
+@startuml sequence_high_level
+title High-Level Sequence Diagram - Parking Management and Guidance System
+
+actor "Driver/User" as User
 actor Admin
 
-participant System
-participant Sensor
-participant Payment
+participant "Parking Management and Guidance System" as System
+participant "Sensor/Camera System" as Sensor
+participant "Payment Gateway" as Payment
 
 User -> System: Check availability
-System -> Sensor: Get parking data
-Sensor --> System: Availability
-System --> User: Show spaces
+System -> Sensor: Request live parking data
+Sensor --> System: Availability and entry/exit updates
+System --> User: Show available spaces
 
-User -> System: Reserve spot
-System --> User: Confirm reservation
+alt Space available
+  User -> System: Reserve selected spot
+  System --> User: Confirm reservation
+  User -> System: Request route guidance
+  System --> User: Display route to reserved spot
 
-User -> System: Pay fee
-System -> Payment: Process payment
-Payment --> System: Success
-System --> User: Payment confirmed
+  User -> System: Checkout and pay fee
+  System -> Payment: Process payment
+  Payment --> System: Payment result
+  System --> User: Payment confirmation
+else Parking full
+  System --> User: Display parking full message
+end
 
 Admin -> System: View occupancy
 System --> Admin: Show data
+
+Admin -> System: Manage parking spaces and pricing
+System --> Admin: Confirm updates
 @enduml
